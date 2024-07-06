@@ -99,4 +99,39 @@ public class SeatingManagerTest {
 
     }
 
+    @Test
+    public void testLeaves() throws Exception {
+        CustomerGroup group1 = new CustomerGroup(6);
+        seatingManager.arrives(group1);
+        assertTrue(group1.isSeated());
+        seatingManager.leaves(group1);
+        assertFalse(group1.isSeated());
+
+        CustomerGroup group2 = new CustomerGroup(6);
+        CustomerGroup group3 = new CustomerGroup(6);
+        CustomerGroup group4 = new CustomerGroup(6);
+        CustomerGroup group5 = new CustomerGroup(6);
+
+        seatingManager.arrives(group2); // gets table
+        seatingManager.arrives(group3); // gets table
+        seatingManager.arrives(group4); // gets table
+        seatingManager.arrives(group5); //does not get table
+
+        assertTrue(group2.isSeated());
+        assertFalse(group5.isSeated());
+        assertTrue(seatingManager.getListofCustomersWaiting().contains(group5));
+        assertFalse(seatingManager.getListofCustomersWaiting().contains(group2));
+
+        seatingManager.leaves(group2);
+        assertFalse(group2.isSeated());
+    }
+
+    @Test
+    public void testLocate() {
+        CustomerGroup group1 = new CustomerGroup(3);
+        seatingManager.arrives(group1);
+        Table tableOfThree = seatingManager.locate(group1);
+        assertEquals(table6, tableOfThree);
+    }
+
 }

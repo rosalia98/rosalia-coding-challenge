@@ -81,6 +81,7 @@ public class SeatingManager {
         if(!group.isSeated()) {
             listofCustomersWaiting.remove(group);
         } else {// group seated => gets eliminated from the table-seated groups relationship
+            group.setSeated(false);
             // tablesMap gets updated because some seats become available
             for (Map.Entry<Table, List<CustomerGroup>> entry: tableToCustomerMap.entrySet()) {
                 List<CustomerGroup> currentGroup = entry.getValue();
